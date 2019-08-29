@@ -1,0 +1,25 @@
+<!-- <hello name="{{ name }}"></hello>
+<p>
+  Start editing to see some magic happen :)
+</p> -->
+<div>
+  <h2>Hello {{name}}</h2>
+</div>
+
+<form [formGroup]="questionForm" (ngSubmit)="submit(questionForm)">
+  
+  <div formArrayName="questions">
+    <div *ngFor="let question of questionForm.get('questions').controls | orderBySelected; let i = index;" [formGroupName]="i">
+      <!--{{questionForm.get('questions.' + i + '.questionNumber').value}}-->
+      {{questions[questionForm.get('questions.' + i + '.questionNumber').value - 1]['EN']}}
+      <input type="checkbox" formControlName="question" (ngModelChange)="changeValidator($event, i)"/>
+      <input type="text" formControlName="answer" />
+      <em *ngIf="questionForm.get('questions.' + i + '.answer').invalid">Minimum length 4</em>
+    </div>
+  </div>
+  
+  <button type="submit" [disabled]="questionForm.invalid">Submit</button>
+  
+</form>
+
+{{submission|json}}
